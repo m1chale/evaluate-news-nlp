@@ -7,6 +7,9 @@ module.exports = {
   entry: "./src/client/index.js",
   mode: "development",
   devtool: "source-map",
+  devServer: {
+    port: 8082,
+  },
   stats: "verbose",
   module: {
     rules: [
@@ -36,4 +39,8 @@ module.exports = {
       protectWebpackAssets: false,
     }),
   ],
+  output: {
+    libraryTarget: "var",
+    library: "Client",
+  },
 };
