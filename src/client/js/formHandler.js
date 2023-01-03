@@ -3,18 +3,27 @@ export function handleSubmit(event) {
 
   let inputURL = document.getElementById("input-text").value;
 
-  //Client.checkForName(formText);
+  // Validation
+  if (!validateURL(inputURL)) displayInvalidUrl();
 
-  const urlParams = new URLSearchParams({
-    analysisUrl: inputURL,
-  });
-
-  fetch("http://localhost:8080/api/nlp?" + urlParams)
-    .then((res) => res.json())
-    .then((textAnalysis) => displayResults(inputURL, textAnalysis));
+  Client.analyseUrl(inputURL).then(displayResults);
 }
 
-function displayResults(inputText, textAnalysis) {
+function validateURL(url) {
+  if (
+    /^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/g.test(
+      url
+    )
+  ) {
+    console.log("Valid");
+  } else {
+    console.log("Not Valid");
+  }
+}
+
+function displayInvalidUrl() {}
+
+function displayResults(textAnalysis) {
   const resultList = document.getElementById("results");
   const result = document.createElement("li");
   const wrapper = document.createElement("div");
@@ -31,7 +40,7 @@ function displayResults(inputText, textAnalysis) {
   subjectivity.innerText = `Subjectivity: ${textAnalysis.subjectivity}`;
   irony.innerText = `Irony: ${textAnalysis.irony}`;
   confidence.innerText = `Confidence: ${textAnalysis.confidence}`;
-  originalText.innerText = `Original Text: ${inputText.slice(0, 15)}...`;
+  originalText.innerText = `Original Text: ${textAnalysis.sentence_list[0].text}...`;
 
   wrapper.appendChild(score);
   wrapper.appendChild(subjectivity);
@@ -40,4 +49,5 @@ function displayResults(inputText, textAnalysis) {
   wrapper.appendChild(originalText);
   result.appendChild(wrapper);
   resultList.appendChild(result);
+  console.dir(textAnalysis);
 }
