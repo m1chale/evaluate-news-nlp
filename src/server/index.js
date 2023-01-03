@@ -44,8 +44,8 @@ app.get("/test", function (req, res) {
   res.send(mockAPIResponse);
 });
 
-app.get("/api/nlp/:text", (request, response) => {
-  fetchNlp(request.params.text).then((textAnalysis) => {
+app.get("/api/nlp", (request, response) => {
+  fetchNlp(request.query.analysisUrl).then((textAnalysis) => {
     response.send(textAnalysis);
   });
 });
@@ -57,10 +57,11 @@ app.get("/api/nlp/:text", (request, response) => {
 
 async function fetchNlp(text) {
   const url = "https://api.meaningcloud.com/sentiment-2.1?";
+
   const urlParams = new URLSearchParams({
-    txt: text,
-    lang: "auto",
     key: apiKey,
+    url: text,
+    lang: "auto",
   });
 
   try {

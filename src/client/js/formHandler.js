@@ -1,17 +1,17 @@
 export function handleSubmit(event) {
   event.preventDefault();
 
-  let inputText = document.getElementById("input-text").value;
+  let inputURL = document.getElementById("input-text").value;
 
   //Client.checkForName(formText);
 
   const urlParams = new URLSearchParams({
-    text: inputText,
+    analysisUrl: inputURL,
   });
 
-  fetch("http://localhost:8080/api/nlp/" + urlParams)
+  fetch("http://localhost:8080/api/nlp?" + urlParams)
     .then((res) => res.json())
-    .then((textAnalysis) => displayResults(inputText, textAnalysis));
+    .then((textAnalysis) => displayResults(inputURL, textAnalysis));
 }
 
 function displayResults(inputText, textAnalysis) {
