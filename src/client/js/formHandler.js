@@ -1,12 +1,15 @@
 export function handleSubmit(event) {
   event.preventDefault();
 
-  let inputURL = document.getElementById("input-text").value;
+  const inputURL = document.getElementById("input-text");
 
   // Validation
-  if (!validateURL(inputURL)) displayInvalidUrl();
+  if (!validateURL(inputURL.value)) return switchInvalidUrl(true);
 
-  Client.analyseUrl(inputURL).then(displayResults);
+  Client.analyseUrl(inputURL.value).then(displayResults);
+  switchInvalidUrl(false);
+
+  inputURL.value = "";
 }
 
 function validateURL(url) {
@@ -15,13 +18,17 @@ function validateURL(url) {
       url
     )
   ) {
-    console.log("Valid");
+    return true;
   } else {
-    console.log("Not Valid");
+    return false;
   }
 }
 
-function displayInvalidUrl() {}
+function switchInvalidUrl(show) {
+  const targetElement = document.querySelector(".error-message");
+  if (show) targetElement.classList.remove("hidden");
+  else targetElement.classList.add("hidden");
+}
 
 function displayResults(textAnalysis) {
   const resultList = document.getElementById("results");
