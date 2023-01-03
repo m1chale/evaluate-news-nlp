@@ -6,9 +6,15 @@ export function handleSubmit(event) {
   Client.checkForName(formText);
 
   console.log("::: Form Submitted :::");
-  fetch("http://localhost:8080/test")
+
+  const urlParams = new URLSearchParams({
+    text: formText,
+  });
+
+  fetch("http://localhost:8080/api/nlp/" + urlParams)
     .then((res) => res.json())
-    .then(function (res) {
-      document.getElementById("results").innerHTML = res.message;
+    .then(function (textAnalysis) {
+      console.dir(textAnalysis);
+      document.getElementById("results").innerHTML = textAnalysis;
     });
 }
