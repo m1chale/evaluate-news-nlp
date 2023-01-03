@@ -56,5 +56,4 @@ function displayResults(textAnalysis) {
   wrapper.appendChild(originalText);
   result.appendChild(wrapper);
   resultList.appendChild(result);
-  console.dir(textAnalysis);
 }
