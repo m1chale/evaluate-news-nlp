@@ -6,7 +6,7 @@ export function handleSubmit(event) {
   // Validation
   if (!validateURL(inputURL.value)) return switchInvalidUrl(true);
 
-  Client.analyseUrl(inputURL.value).then(Client.displayResults());
+  Client.analyseUrl(inputURL.value).then(Client.displayResults);
   switchInvalidUrl(false);
 
   inputURL.value = "";
